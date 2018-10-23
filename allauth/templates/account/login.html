@@ -9,6 +9,15 @@
 
 <h1>{% trans "Sign In" %}</h1>
 
+{% if redirect_social_connections %}
+<p>
+  {% blocktrans %}
+    It appears that you already have an account with us.  Please sign in, and
+    then you can add your social account.
+  {% endblocktrans %}
+</p>
+{% endif %}
+
 {% get_providers as socialaccount_providers %}
 
 {% if socialaccount_providers %}

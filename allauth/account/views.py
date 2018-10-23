@@ -163,6 +163,8 @@ class LoginView(RedirectAuthenticatedUserMixin,
         signup_url = passthrough_next_redirect_url(self.request,
                                                    reverse("account_signup"),
                                                    self.redirect_field_name)
+        redirect_social_connections = get_request_param(self.request,
+                                                    redirect_social_connections)
         redirect_field_value = get_request_param(self.request,
                                                  self.redirect_field_name)
         site = get_current_site(self.request)
@@ -170,7 +172,8 @@ class LoginView(RedirectAuthenticatedUserMixin,
         ret.update({"signup_url": signup_url,
                     "site": site,
                     "redirect_field_name": self.redirect_field_name,
-                    "redirect_field_value": redirect_field_value})
+                    "redirect_field_value": redirect_field_value,
+                    "redirect_social_connections": redirect_social_connections})
         return ret
 
 

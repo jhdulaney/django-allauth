@@ -13,6 +13,7 @@ from . import app_settings, signals
 from .adapter import get_adapter
 from .models import SocialLogin
 from .providers.base import AuthError, AuthProcess
+from .utils import existing_email
 
 
 def _process_signup(request, sociallogin):
@@ -22,6 +23,12 @@ def _process_signup(request, sociallogin):
     if not auto_signup:
         request.session['socialaccount_sociallogin'] = sociallogin.serialize()
         url = reverse('socialaccount_signup')
+        if account_settings.SIGNIN_EMAIL_EXISTS:
+            if existing_email(sociallogin.user):
+                connections_url = reverse('socialaccount_connections')
+                url = reverse('account_login', kwargs={
+                    'redirect_social_connections': True,
+                    'next': connections_url})
         ret = HttpResponseRedirect(url)
     else:
         # Ok, auto signup it is, at least the e-mail address is ok.

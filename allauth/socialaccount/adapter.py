@@ -141,6 +141,7 @@ class DefaultSocialAccountAdapter(object):
     def is_auto_signup_allowed(self, request, sociallogin):
         # If email is specified, check for duplicate and if so, no auto signup.
         auto_signup = app_settings.AUTO_SIGNUP
+        goto_login = False
         if auto_signup:
             email = user_email(sociallogin.user)
             # Let's check if auto_signup is really possible...
@@ -158,9 +159,6 @@ class DefaultSocialAccountAdapter(object):
                         # because 'email_address' is not guaranteed to
                         # be verified.
                         auto_signup = False
-                        # FIXME: We redirect to signup form -- user will
-                        # see email address conflict only after posting
-                        # whereas we detected it here already.
             elif app_settings.EMAIL_REQUIRED:
                 # Nope, email is required and we don't have it yet...
                 auto_signup = False
