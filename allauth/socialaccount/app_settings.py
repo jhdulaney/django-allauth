@@ -30,6 +30,15 @@ class AppSettings(object):
         return self._setting("AUTO_SIGNUP", True)
 
     @property
+    def SIGNIN_EMAIL_EXISTS(self):
+        """
+        If the user's email is found to already exist, take them to a login
+        page that will then redirect to the socialaccount_connections view
+        upon successful login.
+        """
+        return self._setting("SIGNIN_EMAIL_EXISTS", True)
+
+    @property
     def PROVIDERS(self):
         """
         Provider specific settings
