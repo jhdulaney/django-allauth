@@ -23,7 +23,7 @@ def _process_signup(request, sociallogin):
     if not auto_signup:
         request.session['socialaccount_sociallogin'] = sociallogin.serialize()
         url = reverse('socialaccount_signup')
-        if account_settings.SIGNIN_EMAIL_EXISTS:
+        if app_settings.SIGNIN_EMAIL_EXISTS:
             if existing_email(sociallogin.user):
                 connections_url = reverse('socialaccount_connections')
                 url = reverse('account_login', kwargs={
