@@ -25,10 +25,7 @@ def _process_signup(request, sociallogin):
         url = reverse('socialaccount_signup')
         if app_settings.SIGNIN_EMAIL_EXISTS:
             if existing_email(sociallogin.user):
-                connections_url = reverse('socialaccount_connections')
-                url = reverse('account_login', kwargs={
-                    'redirect_social_connections': True,
-                    'next': connections_url})
+                url = reverse('account_login')
         ret = HttpResponseRedirect(url)
     else:
         # Ok, auto signup it is, at least the e-mail address is ok.

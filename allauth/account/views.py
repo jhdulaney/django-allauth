@@ -39,6 +39,8 @@ from .utils import (
     url_str_to_user_pk,
 )
 
+from socialaccount.models import SocialLogin
+
 
 INTERNAL_RESET_URL_KEY = "set-password"
 INTERNAL_RESET_SESSION_KEY = "_password_reset_key"
@@ -133,7 +135,12 @@ class LoginView(RedirectAuthenticatedUserMixin,
     redirect_field_name = "next"
 
     @sensitive_post_parameters_m
-    def dispatch(self, request, *args, **kwargs):
+    def dispatch(self, request, social=None, *args, **kwargs):
+        social = request.session.get('socialaccount_sociallogin')
+        if social:
+            self.sociallogin = SocialLogin.deserialize(data)
+        else:
+            self.sociallogin = False
         return super(LoginView, self).dispatch(request, *args, **kwargs)
 
     def get_form_kwargs(self):
@@ -171,9 +178,9 @@ class LoginView(RedirectAuthenticatedUserMixin,
 
         ret.update({"signup_url": signup_url,
                     "site": site,
+                    "social": self.sociallogin,
                     "redirect_field_name": self.redirect_field_name,
-                    "redirect_field_value": redirect_field_value,
-                    "redirect_social_connections": redirect_social_connections})
+                    "redirect_field_value": redirect_field_value})
         return ret
 
 
