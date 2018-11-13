@@ -138,7 +138,7 @@ class LoginView(RedirectAuthenticatedUserMixin,
     def dispatch(self, request, social=None, *args, **kwargs):
         social = request.session.get('socialaccount_sociallogin')
         if social:
-            self.sociallogin = SocialLogin.deserialize(data)
+            self.sociallogin = SocialLogin.deserialize(social)
         else:
             self.sociallogin = False
         return super(LoginView, self).dispatch(request, *args, **kwargs)
