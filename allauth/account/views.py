@@ -13,6 +13,8 @@ from django.views.decorators.debug import sensitive_post_parameters
 from django.views.generic.base import TemplateResponseMixin, TemplateView, View
 from django.views.generic.edit import FormView
 
+from allauth.socialaccount.models import SocialLogin
+
 from . import app_settings, signals
 from ..exceptions import ImmediateHttpResponse
 from ..utils import get_form_class, get_request_param
@@ -38,8 +40,6 @@ from .utils import (
     sync_user_email_addresses,
     url_str_to_user_pk,
 )
-
-from socialaccount.models import SocialLogin
 
 
 INTERNAL_RESET_URL_KEY = "set-password"
