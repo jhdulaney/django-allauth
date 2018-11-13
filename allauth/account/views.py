@@ -13,8 +13,6 @@ from django.views.decorators.debug import sensitive_post_parameters
 from django.views.generic.base import TemplateResponseMixin, TemplateView, View
 from django.views.generic.edit import FormView
 
-from allauth.socialaccount.models import SocialLogin
-
 from . import app_settings, signals
 from ..exceptions import ImmediateHttpResponse
 from ..utils import get_form_class, get_request_param
@@ -137,15 +135,8 @@ class LoginView(RedirectAuthenticatedUserMixin,
     @sensitive_post_parameters_m
     def dispatch(self, request, social=None, *args, **kwargs):
         social = request.session.get('socialaccount_sociallogin')
-        print('\n\n\n\n\n\n\n\n\n\n\n..\n')
-        print('dispatch')
-        print(social)
-        print('\n.\n')
-        if social:
-            self.sociallogin = SocialLogin.deserialize(social)
-        else:
-            self.sociallogin = False
-        print(self.sociallogin)
+        self.sociallogin = {"provider": social['account']['provider'],
+                            "email": social['account']['extra_data']['email']}
         return super(LoginView, self).dispatch(request, *args, **kwargs)
 
     def get_form_kwargs(self):
