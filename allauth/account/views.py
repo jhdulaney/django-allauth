@@ -175,11 +175,6 @@ class LoginView(RedirectAuthenticatedUserMixin,
                     "social": self.sociallogin,
                     "redirect_field_name": self.redirect_field_name,
                     "redirect_field_value": redirect_field_value})
-        print('\n\n\n\n\n\n\n\n\n..\n')
-        print('ret')
-        print(ret)
-        print('\n\n social')
-        print(self.sociallogin)
         return ret
 
 
