@@ -137,10 +137,15 @@ class LoginView(RedirectAuthenticatedUserMixin,
     @sensitive_post_parameters_m
     def dispatch(self, request, social=None, *args, **kwargs):
         social = request.session.get('socialaccount_sociallogin')
+        print('\n\n\n\n\n\n\n\n\n\n\n..\n')
+        print('dispatch')
+        print(social)
+        print('\n.\n')
         if social:
             self.sociallogin = SocialLogin.deserialize(social)
         else:
             self.sociallogin = False
+        print(self.sociallogin)
         return super(LoginView, self).dispatch(request, *args, **kwargs)
 
     def get_form_kwargs(self):
